@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symptom Checker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">HC</span>
+      <span class="brand-text">Healthcare AI</span>
+    </div>
+    <nav class="top-nav">
+      <a href="details.html" class="link-secondary">Back</a>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <section class="container">
+      <h1 class="page-title">Symptom Checker</h1>
+      <p class="page-subtitle">Select the symptoms you are currently experiencing.</p>
+
+      <form id="symptomForm" class="form">
+        <div class="grid">
+          <label class="checkbox-card">
+            <input type="checkbox" name="symptom" value="fever">
+            <span>Fever</span>
+          </label>
+
+          <label class="checkbox-card">
+            <input type="checkbox" name="symptom" value="cough">
+            <span>Cough</span>
+          </label>
+
+          <label class="checkbox-card">
+            <input type="checkbox" name="symptom" value="fatigue">
+            <span>Fatigue</span>
+          </label>
+
+          <label class="checkbox-card">
+            <input type="checkbox" name="symptom" value="chest_pain">
+            <span>Chest pain</span>
+          </label>
+
+          <label class="checkbox-card">
+            <input type="checkbox" name="symptom" value="weight_loss">
+            <span>Unintentional weight loss</span>
+          </label>
+
+          <label class="checkbox-card">
+            <input type="checkbox" name="symptom" value="breathlessness">
+            <span>Shortness of breath</span>
+          </label>
+        </div>
+
+        <p class="form-error" id="symptomError"></p>
+
+        <button type="submit">Analyze</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = 'http://localhost:8000'; // adjust to your backend
+
+    const symptomForm = document.getElementById('symptomForm');
+    const symptomError = document.getElementById('symptomError');
+
+    symptomForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const profileRaw = sessionStorage.getItem('hc_profile');
+      if (!profileRaw) {
+        symptomError.textContent = 'Profile data missing. Please restart the assessment.';
+        return;
+      }
+
+      const profile = JSON.parse(profileRaw);
+
+      const checked = Array.from(
+        document.querySelectorAll('input[name="symptom"]:checked')
+      ).map(cb => cb.value);
+
+      if (checked.length === 0) {
+        symptomError.textContent = 'Please select at least one symptom.';
+        return;
+      }
+
+      symptomError.textContent = '';
+
+      const payload = {
+        profile,
+        symptoms: checked
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/api/assessments`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to save assessment.');
+        }
+
+        const data = await res.json();
+        // Expect backend to return something like: { id: "some-id", risk: "...", ... }
+        const id = data.id || data._id;
+        if (!id) {
+          throw new Error('No assessment id returned from server.');
+        }
+
+        // Clear session storage if you want
+        sessionStorage.removeItem('hc_profile');
+
+        window.location.href = `result.html?id=${encodeURIComponent(id)}`;
+      } catch (err) {
+        console.error(err);
+        symptomError.textContent = 'Error submitting data. Please try again.';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Profile - Details</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">HC</span>
+      <span class="brand-text">Healthcare AI</span>
+    </div>
+    <nav class="top-nav">
+      <a href="dashboard.html" class="link-secondary">Back to dashboard</a>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <section class="container">
+      <h1 class="page-title">Basic Information</h1>
+      <p class="page-subtitle">Enter your demographic and clinical details to continue.</p>
+
+      <form id="detailsForm" class="form" novalidate>
+        <div class="form-group">
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" type="text" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="age">Age (years)</label>
+            <input id="age" name="age" type="number" min="0" max="120" placeholder="e.g., 45" required>
+          </div>
+
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required>
+              <option value="" disabled selected>Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other / Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="glucose">Glucose level (mg/dL)</label>
+            <input id="glucose" name="glucose" type="number" min="0" placeholder="e.g., 110" required>
+          </div>
+
+          <div class="form-group">
+            <label for="bp">Blood pressure (mmHg)</label>
+            <input id="bp" name="bp" type="number" min="0" placeholder="e.g., 120" required>
+          </div>
+        </div>
+
+        <p class="form-error" id="detailsError"></p>
+
+        <button type="submit">Continue</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const detailsForm = document.getElementById('detailsForm');
+    const detailsError = document.getElementById('detailsError');
+
+    detailsForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const age = parseInt(document.getElementById('age').value, 10);
+      const gender = document.getElementById('gender').value;
+      const glucose = parseFloat(document.getElementById('glucose').value);
+      const bp = parseFloat(document.getElementById('bp').value);
+
+      if (!fullName || !gender || isNaN(age) || isNaN(glucose) || isNaN(bp)) {
+        detailsError.textContent = 'Please fill in all required fields correctly.';
+        return;
+      }
+
+      detailsError.textContent = '';
+
+      const profile = { fullName, age, gender, glucose, bp };
+      // Temporary client-side storage; final write will be via API from symptoms page
+      sessionStorage.setItem('hc_profile', JSON.stringify(profile));
+
+      window.location.href = 'symptoms.html';
+    });
+  </script>
+</body>
+</html>

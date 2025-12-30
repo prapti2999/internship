@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assessment Result</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-body">
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-mark">HC</span>
+      <span class="brand-text">Healthcare AI</span>
+    </div>
+    <nav class="top-nav">
+      <a href="dashboard.html" class="link-secondary">Back to dashboard</a>
+    </nav>
+  </header>
+
+  <main class="app-main">
+    <section class="container">
+      <h1 class="page-title">Preliminary Assessment</h1>
+      <p class="page-subtitle">
+        This is an AI-inspired risk indication based on the data you entered.
+      </p>
+
+      <article class="result-card">
+        <h2>Patient overview</h2>
+        <p id="patientOverview">Loading profile...</p>
+      </article>
+
+      <article class="result-card">
+        <h2>Risk status</h2>
+        <p id="riskStatus" class="result-status">Calculating...</p>
+        <p id="riskExplanation"></p>
+      </article>
+
+      <article class="result-card">
+        <h2>Next steps</h2>
+        <ul class="result-list">
+          <li>Consider consulting a certified clinician for a detailed evaluation.</li>
+          <li>Monitor your symptoms and record any changes over the next few days.</li>
+          <li>Carry your recent lab reports and medication list to your consultation.</li>
+        </ul>
+      </article>
+
+      <p class="disclaimer">
+        This tool is intended for informational purposes only and does not replace
+        professional medical advice, diagnosis, or treatment.
+      </p>
+
+      <p class="form-error" id="resultError"></p>
+    </section>
+  </main>
+
+  <script>
+    const API_BASE = 'http://localhost:8000'; // same as before
+
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
+
+    async function loadAssessment() {
+      const id = getQueryParam('id');
+      const overviewEl = document.getElementById('patientOverview');
+      const riskStatusEl = document.getElementById('riskStatus');
+      const riskExplanationEl = document.getElementById('riskExplanation');
+      const resultError = document.getElementById('resultError');
+
+      if (!id) {
+        resultError.textContent = 'Missing assessment id. Please restart the assessment.';
+        overviewEl.textContent = 'Not available.';
+        riskStatusEl.textContent = 'Not available';
+        riskStatusEl.className = 'result-status';
+        riskExplanationEl.textContent = '';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/assessments/${encodeURIComponent(id)}`);
+        if (!res.ok) {
+          throw new Error('Failed to load assessment.');
+        }
+
+        const data = await res.json();
+        // Expected shape from backend:
+        // { id, profile: { fullName, age, gender, glucose, bp }, symptoms: [...], risk, explanation }
+        const profile = data.profile || {};
+        const symptoms = data.symptoms || [];
+        const risk = data.risk || 'Not available';
+        const explanation = data.explanation || '';
+
+        overviewEl.textContent =
+          `${profile.fullName || 'Patient'}, ` +
+          `${profile.age || '-'} years, ` +
+          `${profile.gender || '-'}. Glucose: ${profile.glucose || '-'} mg/dL, ` +
+          `Blood pressure: ${profile.bp || '-'} mmHg. Selected symptoms: ` +
+          `${symptoms.length ? symptoms.join(', ') : 'None'}.`;
+
+        let cssClass = 'result-status result-status-low';
+        if (risk.toLowerCase().includes('high')) {
+          cssClass = 'result-status result-status-high';
+        } else if (risk.toLowerCase().includes('moderate')) {
+          cssClass = 'result-status result-status-medium';
+        }
+
+        riskStatusEl.textContent = risk;
+        riskStatusEl.className = cssClass;
+        riskExplanationEl.textContent = explanation;
+
+        resultError.textContent = '';
+      } catch (err) {
+        console.error(err);
+        resultError.textContent = 'Error loading assessment. Please try again.';
+        overviewEl.textContent = 'Not available.';
+        riskStatusEl.textContent = 'Not available';
+        riskStatusEl.className = 'result-status';
+        riskExplanationEl.textContent = '';
+      }
+    }
+
+    loadAssessment();
+  </script>
+</body>
+</html>
