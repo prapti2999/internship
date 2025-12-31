@@ -36,7 +36,12 @@
         </a>
         <a href="#" class="sidebar-item">
           <span class="dot"></span>
-          <span>Appointments</span>
+          <a href="#" class="sidebar-item" onclick="openAppointmentsModal()">
+  <span class="dot"></span>
+  <span>Appointments</span>
+  <span class="appointment-badge">3</span>
+</a>
+
         </a>
       </nav>
 
@@ -372,5 +377,82 @@
       initCharts();
     });
   </script>
+  <!-- ===== APPOINTMENTS MODAL - PASTE HERE ===== -->
+<div id="appointmentsModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>My Appointments</h2>
+      <button class="modal-close" onclick="closeAppointmentsModal()">×</button>
+    </div>
+    <div class="appointments-list" id="appointmentsList">
+      <!-- Appointments loaded here -->
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeAppointmentsModal()">Close</button>
+      <a href="#" class="btn-primary" onclick="alert('Book new appointment!')">Book New</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function openAppointmentsModal() {
+  document.getElementById('appointmentsModal').style.display = 'flex';
+  loadAppointments();
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAppointmentsModal() {
+  document.getElementById('appointmentsModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+
+const DEMO_APPOINTMENTS = [
+  {id:'1', doctor:{name:'Dr. Sarah Johnson', specialty:'Cardiologist', avatar:'SJ'}, date:'Jan 15', time:'10:30AM', location:'Heart Clinic Rm204', status:'upcoming'},
+  {id:'2', doctor:{name:'Dr. Michael Chen', specialty:'Endocrinologist', avatar:'MC'}, date:'Jan 10', time:'02:15PM', location:'Endo Center Virtual', status:'completed'},
+  {id:'3', doctor:{name:'Dr. Emily Rodriguez', specialty:'Physiotherapist', avatar:'ER'}, date:'Dec 28', time:'11:00AM', location:'Physio Wing Gym3', status:'completed'}
+];
+
+function loadAppointments() {
+  const list = document.getElementById('appointmentsList');
+  list.innerHTML = '<div style="padding:40px;text-align:center;color:#9ca3af;">Loading...</div>';
+  setTimeout(() => renderAppointments(DEMO_APPOINTMENTS), 500);
+}
+
+function renderAppointments(apps) {
+  const list = document.getElementById('appointmentsList');
+  list.innerHTML = apps.map(apt => `
+    <div class="appointment-item ${apt.status}" onclick="viewAppointment('${apt.id}')">
+      <div class="doctor-avatar">${apt.doctor.avatar}</div>
+      <div class="doctor-info">
+        <div class="doctor-name">${apt.doctor.name}</div>
+        <div class="doctor-specialty">${apt.doctor.specialty}</div>
+      </div>
+      <div class="appointment-details">
+        <div class="appointment-date">${apt.date}</div>
+        <div class="appointment-time">${apt.time}</div>
+        <div class="appointment-location">${apt.location}</div>
+      </div>
+      <div class="appointment-status status-${apt.status}">
+        ${apt.status.toUpperCase()}
+      </div>
+    </div>
+  `).join('');
+}
+
+function viewAppointment(id) {
+  alert(`📅 Appointment ${id} details\n✅ Ready for backend!`);
+}
+
+// Close modal clicks
+document.addEventListener('click', e => {
+  if(e.target.id === 'appointmentsModal') closeAppointmentsModal();
+});
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeAppointmentsModal();
+});
+</script>
+<!-- ===== END APPOINTMENTS ===== -->
+</body>
+
 </body>
 </html>
