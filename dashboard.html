@@ -387,9 +387,14 @@
       <!-- Appointments loaded here -->
     </div>
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeAppointmentsModal()">Close</button>
-      <a href="#" class="btn-primary" onclick="alert('Book new appointment!')">Book New</a>
-    </div>
+  <button class="btn-secondary modal-close-btn" onclick="closeAppointmentsModal()">
+    Close
+  </button>
+  <button class="btn-primary modal-book-btn" onclick="bookNewAppointment()">
+    Book New Appointment
+  </button>
+</div>
+
   </div>
 </div>
 
@@ -398,6 +403,9 @@ function openAppointmentsModal() {
   document.getElementById('appointmentsModal').style.display = 'flex';
   loadAppointments();
   document.body.style.overflow = 'hidden';
+  closeAppointmentsModal();
+  alert('🚀 Booking system coming soon!\n\nRedirecting to doctor search...');
+  // window.location.href = 'doctors.html';
 }
 
 function closeAppointmentsModal() {
@@ -453,8 +461,86 @@ document.addEventListener('keydown', e => {
 function startAssessment() {
   window.location.href = 'assessment.html';
 }
+<script>
+function openAppointmentsModal() {
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML = `
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2>My Appointments</h2>
+        <button class="modal-close" onclick="closeAppointmentsModal()">×</button>
+      </div>
+      <div class="appointments-list">
+        <div class="appointment-item upcoming">
+          <div class="doctor-avatar">SJ</div>
+          <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Sarah Johnson</h3>
+            <p class="doctor-specialty">Cardiologist</p>
+          </div>
+          <div class="appointment-details">
+            <div class="appointment-date">Jan 15</div>
+            <div class="appointment-time">10:30 AM</div>
+            <div class="appointment-location">City Hospital</div>
+          </div>
+          <div class="appointment-status status-upcoming">Upcoming</div>
+        </div>
+        
+        <div class="appointment-item">
+          <div class="doctor-avatar">MC</div>
+          <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Michael Chen</h3>
+            <p class="doctor-specialty">Endocrinologist</p>
+          </div>
+          <div class="appointment-details">
+            <div class="appointment-date">Jan 10</div>
+            <div class="appointment-time">02:00 PM</div>
+            <div class="appointment-location">Wellness Center</div>
+          </div>
+          <div class="appointment-status status-completed">Completed</div>
+        </div>
+        
+        <div class="appointment-item">
+          <div class="doctor-avatar">ER</div>
+          <div class="doctor-info">
+            <h3 class="doctor-name">Dr. Emily Rodriguez</h3>
+            <p class="doctor-specialty">Primary Care</p>
+          </div>
+          <div class="appointment-details">
+            <div class="appointment-date">Dec 28</div>
+            <div class="appointment-time">09:45 AM</div>
+            <div class="appointment-location">Family Clinic</div>
+          </div>
+          <div class="appointment-status status-completed">Completed</div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeAppointmentsModal()">Close</button>
+        <button class="btn-primary">Book New Appointment</button>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(overlay);
+  document.body.style.overflow = 'hidden';
+}
 
-// Your existing appointments code continues...
+function closeAppointmentsModal() {
+  const overlay = document.querySelector('.modal-overlay');
+  if (overlay) {
+    overlay.remove();
+    document.body.style.overflow = 'auto';
+  }
+}
+
+// Close on overlay click
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-overlay')) {
+    closeAppointmentsModal();
+  }
+});
+</script>
 
 </script>
 <!-- ===== END APPOINTMENTS ===== -->
