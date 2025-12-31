@@ -21,27 +21,28 @@
       </div>
 
       <div class="sidebar-section-label">Dashboard</div>
-      <nav class="sidebar-menu">
-        <a href="dashboard.html" class="sidebar-item active">
-          <span class="dot"></span>
-          <span>Overview</span>
-        </a>
-        <a href="profile.html" class="sidebar-item">
-          <span class="dot"></span>
-          <span>Profile</span>
-        </a>
-        <a href="#" class="sidebar-item">
-          <span class="dot"></span>
-          <span>Patients</span>
-        </a>
-          <a href="#" class="sidebar-item" onclick="openAppointmentsModal()">
-            <span class="dot"></span>
-            <span>Appointments</span>
-            <span class="appointment-badge">3</span>
-</a>
+<nav class="sidebar-menu">
+  <a href="dashboard.html" class="sidebar-item active">
+    <span class="dot"></span>
+    <span>Overview</span>
+  </a>
+  <a href="assessment.html" target="_blank" class="sidebar-item">
+    <span class="dot"></span>
+    <span>Assessments</span>
+    <span style="position:absolute;top:8px;right:12px;background:#3b82f6;color:white;border-radius:12px;padding:4px 8px;font-size:10px;font-weight:700;">New</span>
+  </a>
 
-        </a>
-      </nav>
+  <a href="profile.html" class="sidebar-item">
+    <span class="dot"></span>
+    <span>Profile</span>
+  </a>
+  <a href="#" class="sidebar-item" onclick="openAppointmentsModal()">
+    <span class="dot"></span>
+    <span>Appointments</span>
+    <span class="appointment-badge">3</span>
+  </a>
+</nav>
+
 
       <div class="sidebar-section-label">Settings</div>
       <nav class="sidebar-menu">
@@ -448,6 +449,13 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape') closeAppointmentsModal();
 });
+// ADD THIS FUNCTION (before closing </script>)
+function startAssessment() {
+  window.location.href = 'assessment.html';
+}
+
+// Your existing appointments code continues...
+
 </script>
 <!-- ===== END APPOINTMENTS ===== -->
 </body>

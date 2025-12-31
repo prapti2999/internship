@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Assessment - DocCare</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+</head>
+<body class="dark-body">
+  <div class="assessment-flow">
+    <!-- STEP 1: PERSONAL DETAILS (from details.html) -->
+    <div class="assessment-step active" id="step-details">
+      <div class="step-header">
+        <h1>Personal Details</h1>
+        <p>Enter your health information for accurate assessment</p>
+      </div>
+      
+      <form class="details-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="age" min="1" max="120" value="45" required>
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="gender">
+              <option value="male">Male</option>
+              <option value="female" selected>Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Height (cm)</label>
+            <input type="number" id="height" value="165" required>
+          </div>
+          <div class="form-group">
+            <label>Weight (kg)</label>
+            <input type="number" id="weight" value="72" step="0.1" required>
+          </div>
+          <div class="form-group full-width">
+            <label>Current Blood Pressure</label>
+            <input type="text" id="bp" placeholder="120/80" value="128/82">
+          </div>
+          <div class="form-group full-width">
+            <label>Recent Glucose (mg/dL)</label>
+            <input type="number" id="glucose" value="142">
+          </div>
+        </div>
+        <button type="button" class="btn-primary full-width" onclick="goToSymptoms()">Next: Symptoms</button>
+      </form>
+    </div>
+
+    <!-- STEP 2: SYMPTOMS (from symptoms.html) -->
+    <div class="assessment-step" id="step-symptoms">
+      <div class="step-header">
+        <h1>Select Your Symptoms</h1>
+        <p>Choose all that apply (multi-select OK)</p>
+      </div>
+      
+      <div class="symptoms-container">
+        <div class="symptoms-grid">
+          <label class="symptom-card" data-symptom="chest_pain">
+            <input type="checkbox" name="symptoms" value="chest_pain">
+            <span class="symptom-icon">❤️</span>
+            <span class="symptom-label">Chest Pain</span>
+          </label>
+          
+          <label class="symptom-card" data-symptom="short_breath">
+            <input type="checkbox" name="symptoms" value="short_breath">
+            <span class="symptom-icon">🫁</span>
+            <span class="symptom-label">Shortness of Breath</span>
+          </label>
+          
+          <label class="symptom-card" data-symptom="fatigue">
+            <input type="checkbox" name="symptoms" value="fatigue">
+            <span class="symptom-icon">😴</span>
+            <span class="symptom-label">Fatigue</span>
+          </label>
+          
+          <label class="symptom-card" data-symptom="headache">
+            <input type="checkbox" name="symptoms" value="headache">
+            <span class="symptom-icon">🧠</span>
+            <span class="symptom-label">Headache</span>
+          </label>
+          
+          <label class="symptom-card" data-symptom="dizziness">
+            <input type="checkbox" name="symptoms" value="dizziness">
+            <span class="symptom-icon">😵</span>
+            <span class="symptom-label">Dizziness</span>
+          </label>
+          
+          <label class="symptom-card" data-symptom="stomach_pain">
+            <input type="checkbox" name="symptoms" value="stomach_pain">
+            <span class="symptom-icon">🫀</span>
+            <span class="symptom-label">Stomach Pain</span>
+          </label>
+          
+          <label class="symptom-card" data-symptom="joint_pain">
+            <input type="checkbox" name="symptoms" value="joint_pain">
+            <span class="symptom-icon">🦴</span>
+            <span class="symptom-label">Joint Pain</span>
+          </label>
+          
+          <label class="symptom-card" data-symptom="fever">
+            <input type="checkbox" name="symptoms" value="fever">
+            <span class="symptom-icon">🌡️</span>
+            <span class="symptom-label">Fever</span>
+          </label>
+        </div>
+        
+        <div class="symptom-stats">
+          <span id="selectedCount">0 symptoms selected</span>
+        </div>
+      </div>
+      
+      <div class="step-actions">
+        <button class="btn-secondary" onclick="goToDetails()">← Back</button>
+        <button class="btn-primary" onclick="calculateRisk()">Get Results</button>
+      </div>
+    </div>
+<!-- ===== STEP 3: DEEP DIAGNOSIS ===== -->
+<div class="assessment-step" id="step-deep">
+  <div class="step-header">
+    <h1>Deep Diagnosis</h1>
+    <p>Answer specific questions about <span id="deepSymptomName">your symptoms</span></p>
+  </div>
+  
+  <div class="deep-questions">
+    <div class="question-card" id="deepQuestions">
+      <!-- Dynamic questions loaded here -->
+    </div>
+  </div>
+  
+  <div class="step-actions">
+    <button class="btn-secondary full-width" onclick="goToSymptoms()">← Back</button>
+    <button class="btn-primary full-width" onclick="analyzeDeep()">Analyze Deep</button>
+  </div>
+</div>
+<!-- ===== END STEP 3 ===== -->
+
+    <!-- STEP 3: LOADING -->
+    <div class="assessment-step" id="step-loading">
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <h2>AI Analyzing...</h2>
+        <p>Processing your symptoms and vitals</p>
+        <div class="loading-bar">
+          <div class="loading-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: RESULTS SUMMARY -->
+    <div class="assessment-step" id="step-results">
+      <div class="results-header">
+        <h1>Diagnosis Complete</h1>
+        <p>AI Health Assessment Results</p>
+      </div>
+      
+      <div class="risk-display">
+        <div class="risk-circle high">
+          <span class="risk-number">72</span>
+          <span class="risk-label">Risk Score</span>
+        </div>
+        <div class="risk-details">
+          <h2>Hypertension Risk</h2>
+          <p>High blood pressure detected with cardiac risk factors</p>
+        </div>
+      </div>
+      
+      <div class="results-actions">
+        <a href="result.html?risk=72&diagnosis=Hypertension" class="btn-primary full-width">View Full Report →</a>
+        <button class="btn-secondary full-width" onclick="saveAssessment()">Save to Profile</button>
+        <a href="dashboard.html" class="btn-outline full-width">← Back to Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+let patientData = {};
+let selectedSymptoms = [];
+let deepAnswers = {};
+let primarySymptom = '';
+
+const deepQuestions = {
+  chest_pain: [
+    "When did chest pain start?",
+    "Pain radiates to arm/jaw?",
+    "Pain worse with exertion?", 
+    "Associated with sweating?",
+    "Duration of pain episodes?"
+  ],
+  short_breath: [
+    "Breathing difficulty at rest?",
+    "Worse when lying down?",
+    "Cough with phlegm?",
+    "Recent respiratory infection?",
+    "History of asthma/COPD?"
+  ],
+  fatigue: [
+    "Fatigue worse after meals?",
+    "Thirst + frequent urination?",
+    "Unexplained weight loss?",
+    "Family diabetes history?", 
+    "Recent blood sugar readings?"
+  ],
+  headache: [
+    "Sudden onset severe headache?",
+    "Vision changes/blurring?",
+    "Nausea/vomiting with headache?",
+    "Worse in morning?",
+    "Neurological symptoms?"
+  ]
+};
+
+// ===== STEP NAVIGATION =====
+function goToSymptoms() {
+  patientData = {
+    age: document.getElementById('age').value,
+    gender: document.getElementById('gender').value,
+    height: document.getElementById('height').value,
+    weight: document.getElementById('weight').value,
+    bp: document.getElementById('bp').value,
+    glucose: document.getElementById('glucose').value
+  };
+  
+  document.getElementById('step-details').classList.remove('active');
+  document.getElementById('step-symptoms').classList.add('active');
+}
+
+function goToDeepDiagnosis() {
+  if (selectedSymptoms.length === 0) {
+    alert('Please select at least 1 symptom first!');
+    return;
+  }
+  
+  // Pick primary symptom
+  const priority = ['chest_pain', 'short_breath', 'fatigue', 'headache'];
+  primarySymptom = selectedSymptoms.find(s => priority.includes(s)) || selectedSymptoms[0];
+  
+  document.getElementById('deepSymptomName').textContent = 
+    primarySymptom.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase());
+  
+  loadDeepQuestions();
+  
+  document.getElementById('step-symptoms').classList.remove('active');
+  document.getElementById('step-deep').classList.add('active');
+}
+
+function goToSymptomsFromDeep() {
+  document.getElementById('step-deep').classList.remove('active');
+  document.getElementById('step-symptoms').classList.add('active');
+}
+
+// ===== DEEP QUESTIONS =====
+function loadDeepQuestions() {
+  const questions = deepQuestions[primarySymptom] || deepQuestions.chest_pain;
+  const container = document.getElementById('deepQuestions');
+  
+  container.innerHTML = questions.map((question, index) => `
+    <div class="deep-question">
+      <label>${index + 1}. ${question}</label>
+      <div class="radio-options">
+        <label class="radio-option">
+          <input type="radio" name="deep${index}" value="Yes">
+          <span>Yes</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="deep${index}" value="No">
+          <span>No</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="deep${index}" value="Sometimes">
+          <span>Sometimes</span>
+        </label>
+      </div>
+    </div>
+  `).join('');
+}
+
+function analyzeDeep() {
+  // Collect answers
+  deepAnswers = {};
+  document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+    const qIndex = radio.name.replace('deep', '');
+    deepAnswers[qIndex] = radio.value;
+  });
+  
+  if (Object.keys(deepAnswers).length < 3) {
+    alert('Please answer at least 3 questions');
+    return;
+  }
+  
+  // Go to loading
+  document.getElementById('step-deep').classList.remove('active');
+  document.getElementById('step-loading').classList.add('active');
+  
+  // Simulate AI analysis
+  setTimeout(() => showDeepResults(), 3000);
+}
+
+function showDeepResults() {
+  let riskScore = 35;
+  
+  // Primary symptom risk
+  if (primarySymptom === 'chest_pain') riskScore += 35;
+  else if (primarySymptom === 'short_breath') riskScore += 25;
+  else riskScore += 15;
+  
+  // Deep answers scoring
+  Object.values(deepAnswers).forEach(answer => {
+    if (answer === 'Yes') riskScore += 12;
+    if (answer === 'Sometimes') riskScore += 6;
+  });
+  
+  // Patient data scoring
+  const age = parseInt(patientData.age) || 45;
+  if (age > 60) riskScore += 15;
+  else if (age > 45) riskScore += 8;
+  
+  riskScore = Math.min(92, riskScore);
+  
+  // Update results display
+  document.querySelector('.risk-number').textContent = Math.round(riskScore);
+  document.querySelector('.risk-circle').className = `risk-circle ${riskScore > 75 ? 'high' : riskScore > 55 ? 'medium' : 'low'}`;
+  
+  const diagnosis = getDiagnosis(riskScore, primarySymptom);
+  
+  document.getElementById('step-loading').classList.remove('active');
+  document.getElementById('step-results').classList.add('active');
+  
+  // Prepare result.html link
+  window.location.href = `result.html?risk=${Math.round(riskScore)}&diagnosis=${diagnosis}&symptom=${primarySymptom}`;
+}
+
+function getDiagnosis(score, symptom) {
+  if (score > 80) {
+    return symptom === 'chest_pain' ? 'Acute Cardiac Event' :
+           symptom === 'short_breath' ? 'Respiratory Emergency' : 'Critical Condition';
+  } else if (score > 60) {
+    return `${symptom.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())} Risk`;
+  }
+  return 'Moderate Risk Factors';
+}
+
+// ===== SYMPTOMS CHECKBOXES =====
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('input[name="symptoms"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      selectedSymptoms = Array.from(document.querySelectorAll('input[name="symptoms"]:checked')).map(cb => cb.value);
+      document.getElementById('selectedCount').textContent = `${selectedSymptoms.length} symptoms selected`;
+      this.closest('.symptom-card').classList.toggle('selected', this.checked);
+    });
+  });
+});
+
+// ===== MAIN FLOW =====
+function calculateRisk() {
+  if (selectedSymptoms.length === 0) {
+    alert('Please select at least 1 symptom');
+    return;
+  }
+  goToDeepDiagnosis();
+}
+</script>
+
+</body>
+</html>
