@@ -1,208 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Government Hospital Finder</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard - DocCare</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <i class="fas fa-hospital"></i>
-                <div>
-                    <h1>Government Hospital Finder</h1>
-                    <p>Recently Searched Hospitals & Doctors - Chennai, Tamil Nadu</p>
-                </div>
-            </div>
-        </header>
-
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card blue">
-                <i class="fas fa-hospital"></i>
-                <div>
-                    <h3>15</h3>
-                    <p>Govt Hospitals</p>
-                </div>
-            </div>
-            <div class="stat-card green">
-                <i class="fas fa-user-md"></i>
-                <div>
-                    <h3>68</h3>
-                    <p>Doctors Found</p>
-                </div>
-            </div>
-            <div class="stat-card purple">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                    <h3>Chennai</h3>
-                    <p>Current Location</p>
-                </div>
-            </div>
-            <div class="stat-card orange">
-                <i class="fas fa-search"></i>
-                <div>
-                    <h3>23</h3>
-                    <p>Recent Searches</p>
-                </div>
-            </div>
+<body class="dark-body">
+  <div class="dash-layout">
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">HC</div>
+        <div class="sidebar-title">
+          <span>DocCare</span>
+          <small>Admin Panel</small>
         </div>
+      </div>
 
-        <!-- Recently Searched Hospitals -->
-        <section class="recent-section">
-            <h2><i class="fas fa-map-marker-alt"></i> Recently Searched Hospitals</h2>
-            <div class="hospital-grid">
-                <div class="hospital-card">
-                    <div class="card-header">
-                        <i class="fas fa-hospital"></i>
-                        <span class="status active">Open 24/7</span>
-                    </div>
-                    <h4>Rajiv Gandhi Government General Hospital</h4>
-                    <div class="hospital-info">
-                        <p><i class="fas fa-map-pin"></i> Park Town, Chennai - 600003</p>
-                        <p><i class="fas fa-bed"></i> 1550 Beds | Multi-specialty</p>
-                        <p><i class="fas fa-stethoscope"></i> General Medicine, Surgery, Emergency</p>
-                    </div>
-                    <div class="card-footer">
-                        <span class="search-time">• 2 mins ago</span>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
+      <div class="sidebar-section-label">Dashboard</div>
+      <nav class="sidebar-menu">
+        <a href="dashboard.html" class="sidebar-item active">
+          <span class="dot"></span>
+          <span>Overview</span>
+        </a>
+        <a href="profile.html" class="sidebar-item">
+          <span class="dot"></span>
+          <span>Profile</span>
+        </a>
+        <a href="#" class="sidebar-item">
+          <span class="dot"></span>
+          <span>Patients</span>
+        </a>
+        <a href="#" class="sidebar-item">
+          <span class="dot"></span>
+          <span>Appointments</span>
+        </a>
+      </nav>
 
-                <div class="hospital-card">
-                    <div class="card-header">
-                        <i class="fas fa-university"></i>
-                        <span class="status active">Open 24/7</span>
-                    </div>
-                    <h4>Stanley Medical College Hospital</h4>
-                    <div class="hospital-info">
-                        <p><i class="fas fa-map-pin"></i> Royapuram, Chennai - 600001</p>
-                        <p><i class="fas fa-bed"></i> 1200 Beds | Liver Transplant</p>
-                        <p><i class="fas fa-stethoscope"></i> Orthopedics, Neurology, ICU</p>
-                    </div>
-                    <div class="card-footer">
-                        <span class="search-time">• 5 mins ago</span>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
+      <div class="sidebar-section-label">Settings</div>
+      <nav class="sidebar-menu">
+        <a href="#" class="sidebar-item">
+          <span class="dot"></span>
+          <span>Notifications</span>
+        </a>
+        <a href="index.html" class="sidebar-item">
+          <span class="dot"></span>
+          <span>Logout</span>
+        </a>
+      </nav>
+    </aside>
 
-                <div class="hospital-card">
-                    <div class="card-header">
-                        <i class="fas fa-heartbeat"></i>
-                        <span class="status active">Open 24/7</span>
-                    </div>
-                    <h4>Government Kilpauk Medical College</h4>
-                    <div class="hospital-info">
-                        <p><i class="fas fa-map-pin"></i> Poonamallee High Rd, Chennai</p>
-                        <p><i class="fas fa-bed"></i> 800 Beds | Super Speciality</p>
-                        <p><i class="fas fa-stethoscope"></i> Cardiology, Oncology, Nephrology</p>
-                    </div>
-                    <div class="card-footer">
-                        <span class="search-time">• 12 mins ago</span>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
-
-                <div class="hospital-card">
-                    <div class="card-header">
-                        <i class="fas fa-ambulance"></i>
-                        <span class="status warning">Emergency</span>
-                    </div>
-                    <h4>Government Royapettah Hospital</h4>
-                    <div class="hospital-info">
-                        <p><i class="fas fa-map-pin"></i> Royapettah, Chennai - 600014</p>
-                        <p><i class="fas fa-bed"></i> 500 Beds | Emergency Care</p>
-                        <p><i class="fas fa-stethoscope"></i> Trauma, Gynecology, Pediatrics</p>
-                    </div>
-                    <div class="card-footer">
-                        <span class="search-time">• 20 mins ago</span>
-                        <a href="#" class="view-btn">View Details</a>
-                    </div>
-                </div>
+    <!-- Main area -->
+    <div class="dash-main">
+      <!-- Top bar -->
+      <header class="dash-topbar">
+        <div class="topbar-left">
+          <h1>Patient Dashboard</h1>
+          <p>Today overview · <span id="currentDate"></span></p>
+        </div>
+        <div class="topbar-right">
+          <div class="search-box">
+            <input type="text" placeholder="Search patient, ID, diagnosis..." id="searchInput">
+          </div>
+          <button class="icon-btn notification-btn" id="notificationBtn">🔔</button>
+          <div class="user-pill" id="userProfile">
+            <div class="avatar" id="userAvatar">A</div>
+            <div id="userInfo">
+              <div class="user-name">Loading...</div>
+              <div class="user-role">Loading...</div>
             </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content grid -->
+      <main class="dash-content">
+        <section class="dash-grid-left">
+          <!-- Vitals cards -->
+          <div class="card-row" id="vitalsCards">
+            <div class="card-small vital-card" data-vital="heart">
+              <h3>Heart Rate</h3>
+              <p class="card-value" data-value="82">82 <span>bpm</span></p>
+              <p class="card-sub">Normal <span>• +3 today</span></p>
+            </div>
+            <div class="card-small vital-card" data-vital="bp">
+              <h3>Blood Pressure</h3>
+              <p class="card-value" data-value="128/82">128 / 82</p>
+              <p class="card-sub">Elevated <span>• -5</span></p>
+            </div>
+            <div class="card-small vital-card" data-vital="glucose">
+              <h3>Glucose</h3>
+              <p class="card-value" data-value="142">142 <span>mg/dL</span></p>
+              <p class="card-sub">Borderline <span>• +8</span></p>
+            </div>
+            <div class="card-small vital-card" data-vital="weight">
+              <h3>Weight</h3>
+              <p class="card-value" data-value="74.3">74.3 <span>kg</span></p>
+              <p class="card-sub">Stable <span>• -0.2</span></p>
+            </div>
+          </div>
+
+          <!-- Body composition + Latest diagnosis -->
+          <div class="card-row-2">
+            <div class="card-large">
+              <div class="card-header">
+                <h2>Body Composition</h2>
+                <span class="tag">Today</span>
+              </div>
+              <div class="body-comp">
+                <div class="body-chart">
+                  <canvas id="bodyChart" width="120" height="120"></canvas>
+                  <ul>
+                    <li><span class="dot green"></span> Fat <span>26%</span></li>
+                    <li><span class="dot yellow"></span> Muscle <span>54%</span></li>
+                    <li><span class="dot blue"></span> Water <span>60%</span></li>
+                  </ul>
+                </div>
+                <div class="body-figure">
+                  <svg class="human-figure" viewBox="0 0 100 160" fill="none">
+                    <path d="M50 10 Q60 20 60 35 Q60 50 50 60 Q40 50 40 35 Q40 20 50 10" stroke="#4b5563" stroke-width="3" fill="none"/>
+                    <ellipse cx="50" cy="75" rx="18" ry="25" stroke="#4b5563" stroke-width="3" fill="none"/>
+                    <path d="M35 100 L30 130 Q35 140 45 140 Q55 140 60 130 L65 100" stroke="#4b5563" stroke-width="3" stroke-linecap="round" fill="none"/>
+                    <path d="M32 110 L20 140" stroke="#4b5563" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M68 110 L80 140" stroke="#4b5563" stroke-width="3" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-large">
+              <div class="card-header">
+                <h2>Latest Diagnosis</h2>
+              </div>
+              <div class="latest-diagnosis">
+                <div class="diagnosis-header">
+                  <h3>Heart Disease</h3>
+                  <span class="status-badge status-medium">Stable</span>
+                </div>
+                <p class="diag-type">Last check 2 days ago</p>
+                <a href="result.html" class="primary-btn">View full report</a>
+                <div class="mini-list">
+                  <div class="mini-item">
+                    <span class="mini-label">Next visit</span>
+                    <span class="mini-value">Oct 02 · 10:30</span>
+                  </div>
+                  <div class="mini-item">
+                    <span class="mini-label">Therapy</span>
+                    <span class="mini-value">Physiotherapy · 2 / 8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts row -->
+          <div class="card-row">
+            <div class="card-large">
+              <div class="card-header">
+                <h2>Calories Stats</h2>
+                <span class="chart-period">Last 7 days</span>
+              </div>
+              <canvas id="caloriesChart" height="120"></canvas>
+            </div>
+            <div class="card-large">
+              <div class="card-header">
+                <h2>Activity Progress</h2>
+                <span class="chart-period">This month</span>
+              </div>
+              <canvas id="activityChart" height="120"></canvas>
+            </div>
+          </div>
         </section>
 
-        <!-- Recently Searched Doctors -->
-        <section class="recent-section">
-            <h2><i class="fas fa-user-md"></i> Recently Searched Doctors</h2>
-            <div class="doctor-grid">
-                <div class="doctor-card">
-                    <div class="doctor-header">
-                        <i class="fas fa-user-md"></i>
-                        <span class="specialty">General Medicine</span>
-                    </div>
-                    <h4>Dr. S. Siddhardha Solosan</h4>
-                    <div class="doctor-info">
-                        <p><i class="fas fa-hospital"></i> Rajiv Gandhi Govt General Hospital</p>
-                        <p><i class="fas fa-calendar-alt"></i> Available Today | OPD Timing: 8 AM - 2 PM</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <span>4.5 (127)</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <span class="search-time">• 3 mins ago</span>
-                        <a href="#" class="book-btn">Book Appointment</a>
-                    </div>
-                </div>
-
-                <div class="doctor-card">
-                    <div class="doctor-header">
-                        <i class="fas fa-user-md"></i>
-                        <span class="specialty">Cardiology</span>
-                    </div>
-                    <h4>Dr. Valarmathi R.</h4>
-                    <div class="doctor-info">
-                        <p><i class="fas fa-hospital"></i> Kilpauk Medical College Hospital</p>
-                        <p><i class="fas fa-calendar-alt"></i> Tomorrow | 10 AM - 4 PM</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span>5.0 (89)</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <span class="search-time">• 8 mins ago</span>
-                        <a href="#" class="book-btn">Book Appointment</a>
-                    </div>
-                </div>
-
-                <div class="doctor-card">
-                    <div class="doctor-header">
-                        <i class="fas fa-user-md"></i>
-                        <span class="specialty">Internal Medicine</span>
-                    </div>
-                    <h4>Dr. Vanithamalar S.</h4>
-                    <div class="doctor-info">
-                        <p><i class="fas fa-hospital"></i> Stanley Medical College Hospital</p>
-                        <p><i class="fas fa-calendar-alt"></i> Available Now | Emergency</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span>4.0 (156)</span>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <span class="search-time">• 15 mins ago</span>
-                        <a href="#" class="book-btn">Book Appointment</a>
-                    </div>
-                </div>
+        <!-- Right column -->
+        <section class="dash-grid-right">
+          <!-- Risk pie -->
+          <div class="card-large">
+            <div class="card-header">
+              <h2>Risk Distribution</h2>
             </div>
+            <div class="risk-box">
+              <canvas id="riskChart" width="100" height="100"></canvas>
+              <ul class="risk-legend">
+                <li><span class="dot green"></span>Low <span>46%</span></li>
+                <li><span class="dot yellow"></span>Moderate <span>34%</span></li>
+                <li><span class="dot red"></span>High <span>20%</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Calendar -->
+          <div class="card-large">
+            <div class="card-header">
+              <h2>Calendar</h2>
+            </div>
+            <div class="calendar-box">
+              <div class="calendar-month">
+                <span>September 2024</span>
+                <button class="calendar-nav">←</button>
+                <button class="calendar-nav">→</button>
+              </div>
+              <div class="calendar-grid">
+                <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span>
+                <span></span><span></span><span>1</span><span>2</span><span class="has-event">3</span><span>4</span><span>5</span>
+                <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span>
+                <span>13</span><span>14</span><span class="today">15</span><span>16</span><span>17</span><span>18</span><span>19</span>
+                <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Therapy list -->
+          <div class="card-large">
+            <div class="card-header">
+              <h2>Therapy Schedule</h2>
+            </div>
+            <div class="therapy-list">
+              <div class="therapy-item">
+                <div>
+                  <h4>Physiotherapy</h4>
+                  <p>Today · 05:00 PM</p>
+                </div>
+                <span class="tag tag-clinic">In-clinic</span>
+              </div>
+              <div class="therapy-item">
+                <div>
+                  <h4>Diet Consultation</h4>
+                  <p>Tomorrow · 07:30 PM</p>
+                </div>
+                <span class="tag tag-online">Online</span>
+              </div>
+              <div class="therapy-item">
+                <div>
+                  <h4>Follow-up ECG</h4>
+                  <p>Oct 01 · 09:15 AM</p>
+                </div>
+                <span class="tag tag-clinic">In-clinic</span>
+              </div>
+            </div>
+          </div>
         </section>
+      </main>
     </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:8000';
+
+    // Set current date
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+    });
+
+    // Load user profile
+    async function loadUserProfile() {
+      try {
+        const res = await fetch(`${API_BASE}/api/profile`, { credentials: 'include' });
+        if (res.ok) {
+          const profile = await res.json();
+          const avatarEl = document.getElementById('userAvatar');
+          const userInfoEl = document.getElementById('userInfo');
+          
+          avatarEl.textContent = (profile.firstName?.[0] || 'A') + (profile.lastName?.[0] || '');
+          document.querySelector('.user-name').textContent = 
+            `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || 'Doctor';
+          document.querySelector('.user-role').textContent = profile.specialization || 'Physician';
+        }
+      } catch (err) {
+        console.log('Profile not loaded:', err);
+      }
+    }
+
+    // Initialize charts
+    function initCharts() {
+      // Body composition donut
+      new Chart(document.getElementById('bodyChart'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Fat', 'Muscle', 'Water'],
+          datasets: [{
+            data: [26, 54, 60],
+            backgroundColor: ['#ef4444', '#22c55e', '#3b82f6'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '70%',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      // Risk pie
+      new Chart(document.getElementById('riskChart'), {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [46, 34, 20],
+            backgroundColor: ['#22c55e', '#eab308', '#ef4444'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '60%',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      // Calories bar chart
+      new Chart(document.getElementById('caloriesChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [{
+            label: 'Calories',
+            data: [2200, 2100, 2350, 1900, 2450, 2300, 2400],
+            backgroundColor: '#3b82f6',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { display: false },
+            x: { grid: { display: false } }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      // Activity donut
+      new Chart(document.getElementById('activityChart'), {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [65, 35],
+            backgroundColor: ['#3b82f6', '#6b7280'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '75%',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    // Notification toggle
+    document.getElementById('notificationBtn').addEventListener('click', function() {
+      this.classList.toggle('active');
+    });
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      // Add search logic here
+      console.log('Searching:', e.target.value);
+    });
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', function() {
+      loadUserProfile();
+      initCharts();
+    });
+  </script>
 </body>
 </html>
